@@ -18,6 +18,7 @@ import {
 } from 'antd';
 import { UserOutlined, BellOutlined, DownOutlined, ShopOutlined, HomeOutlined, DollarOutlined, CalendarOutlined, FileTextOutlined, SettingOutlined, MenuOutlined, PlusOutlined } from '@ant-design/icons';
 import CreateActivity from './CreateActivity';
+import EditActivity from './EditActivity';
 
 const { Header, Sider, Content } = Layout;
 const { TabPane } = Tabs;
@@ -31,8 +32,11 @@ const activityData = [
     orderNo: 'A1D26S0304001000005',
     activityName: '首单活动3m',
     activityType: '根据新会员首单奖励',
+    timeType: '下单时间',
     activityTime: '2026-03-04 15:14:44 → 2026-05-31 15:41...',
+    minOrderAmount: '¥99',
     reward: '¥1.58',
+    miniAppName: '首单奖励活动',
     createTime: '2026-03-04 15:41:45',
     status: '进行中'
   }
@@ -76,6 +80,11 @@ function ActivityList() {
     navigate('/create-activity');
   };
 
+  // 处理编辑活动
+  const handleEditActivity = (id) => {
+    navigate(`/edit-activity/${id}`);
+  };
+
   // 表格列定义
   const columns = [
     {
@@ -98,16 +107,34 @@ function ActivityList() {
       width: 120
     },
     {
+      title: '时间口径',
+      dataIndex: 'timeType',
+      key: 'timeType',
+      width: 80
+    },
+    {
       title: '活动时间',
       dataIndex: 'activityTime',
       key: 'activityTime',
       width: 200
     },
     {
+      title: '有效订单金额',
+      dataIndex: 'minOrderAmount',
+      key: 'minOrderAmount',
+      width: 100
+    },
+    {
       title: '奖励佣金',
       dataIndex: 'reward',
       key: 'reward',
       width: 80
+    },
+    {
+      title: '小程序展示名称',
+      dataIndex: 'miniAppName',
+      key: 'miniAppName',
+      width: 120
     },
     {
       title: '创建时间',
@@ -119,9 +146,9 @@ function ActivityList() {
       title: '操作',
       key: 'action',
       width: 200,
-      render: () => (
+      render: (_, record) => (
         <Space size="small">
-          <a>编辑</a>
+          <a onClick={() => handleEditActivity(record.activityId)}>编辑</a>
           <a>终止佣金规则</a>
           <a>规则说明</a>
           <a>配置导出</a>
@@ -283,6 +310,7 @@ function App() {
       <Routes>
         <Route path="/" element={<ActivityList />} />
         <Route path="/create-activity" element={<CreateActivity />} />
+        <Route path="/edit-activity/:id" element={<EditActivity />} />
       </Routes>
     </Router>
   );
