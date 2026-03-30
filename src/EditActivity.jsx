@@ -19,7 +19,6 @@ import {
 import { UploadOutlined, ArrowLeftOutlined, ShopOutlined, HomeOutlined, DollarOutlined, CalendarOutlined, FileTextOutlined, SettingOutlined } from '@ant-design/icons';
 
 const { Header, Sider, Content } = Layout;
-const { TabPane } = Tabs;
 const { RangePicker } = DatePicker;
 const { Option } = Select;
 const { TextArea } = Input;
@@ -156,15 +155,29 @@ function EditActivity() {
     navigate('/');
   };
 
+  // 处理菜单点击
+  const handleMenuClick = (e) => {
+    console.log('clicked key:', e.key);
+    if (e.key === '4-2') {
+      navigate('/');
+    }
+  };
+
   return (
     <Layout>
       <Header style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 24px', backgroundColor: '#fff', boxShadow: '0 2px 8px rgba(0,0,0,0.1)' }}>
         <div style={{ display: 'flex', alignItems: 'center' }}>
           <span style={{ fontSize: '18px', fontWeight: 'bold', marginRight: '24px' }}>全员带货后台管理系统-SIT</span>
-          <Breadcrumb style={{ margin: 0 }}>
-            <Breadcrumb.Item>活动</Breadcrumb.Item>
-            <Breadcrumb.Item>编辑首单活动</Breadcrumb.Item>
-          </Breadcrumb>
+          <Breadcrumb
+            items={[
+              {
+                title: '活动',
+              },
+              {
+                title: '编辑首单活动',
+              },
+            ]}
+          />
         </div>
         <div style={{ display: 'flex', alignItems: 'center' }}>
           <span style={{ marginRight: '8px' }}>苏曼</span>
@@ -174,36 +187,102 @@ function EditActivity() {
         <Sider width={200} style={{ background: '#fff', borderRight: '1px solid #f0f0f0' }}>
           <Menu
             mode="inline"
-            defaultSelectedKeys={['4-2']}
+            selectedKeys={['4-2']}
             style={{ height: '100%', borderRight: 0, background: '#fff' }}
             theme="light"
-            defaultOpenKeys={['4']}
-          >
-            <Menu.SubMenu key="1" icon={<ShopOutlined />} title="商品">
-              <Menu.Item key="1-1">商品列表</Menu.Item>
-            </Menu.SubMenu>
-            <Menu.SubMenu key="2" icon={<HomeOutlined />} title="门店">
-              <Menu.Item key="2-1">门店列表</Menu.Item>
-            </Menu.SubMenu>
-            <Menu.SubMenu key="3" icon={<DollarOutlined />} title="佣金">
-              <Menu.Item key="3-1">佣金列表</Menu.Item>
-            </Menu.SubMenu>
-            <Menu.SubMenu key="4" icon={<CalendarOutlined />} title="活动" defaultOpenKeys={['4-2']}>
-              <Menu.Item key="4-1">拉新活动</Menu.Item>
-              <Menu.Item key="4-2">首单活动</Menu.Item>
-              <Menu.Item key="4-3">万家商城活动</Menu.Item>
-              <Menu.Item key="4-4">地推拉新活动</Menu.Item>
-            </Menu.SubMenu>
-            <Menu.SubMenu key="5" icon={<FileTextOutlined />} title="任务">
-              <Menu.Item key="5-1">任务列表</Menu.Item>
-            </Menu.SubMenu>
-            <Menu.SubMenu key="6" icon={<FileTextOutlined />} title="报表">
-              <Menu.Item key="6-1">报表列表</Menu.Item>
-            </Menu.SubMenu>
-            <Menu.SubMenu key="7" icon={<SettingOutlined />} title="系统设置">
-              <Menu.Item key="7-1">设置项1</Menu.Item>
-            </Menu.SubMenu>
-          </Menu>
+            openKeys={['4']}
+            items={[
+              {
+                key: '1',
+                icon: <ShopOutlined />,
+                label: '商品',
+                children: [
+                  {
+                    key: '1-1',
+                    label: '商品列表',
+                  },
+                ],
+              },
+              {
+                key: '2',
+                icon: <HomeOutlined />,
+                label: '门店',
+                children: [
+                  {
+                    key: '2-1',
+                    label: '门店列表',
+                  },
+                ],
+              },
+              {
+                key: '3',
+                icon: <DollarOutlined />,
+                label: '佣金',
+                children: [
+                  {
+                    key: '3-1',
+                    label: '佣金列表',
+                  },
+                ],
+              },
+              {
+                key: '4',
+                icon: <CalendarOutlined />,
+                label: '活动',
+                children: [
+                  {
+                    key: '4-1',
+                    label: '拉新活动',
+                  },
+                  {
+                    key: '4-2',
+                    label: '首单活动',
+                  },
+                  {
+                    key: '4-3',
+                    label: '万家商城活动',
+                  },
+                  {
+                    key: '4-4',
+                    label: '地推拉新活动',
+                  },
+                ],
+              },
+              {
+                key: '5',
+                icon: <FileTextOutlined />,
+                label: '任务',
+                children: [
+                  {
+                    key: '5-1',
+                    label: '任务列表',
+                  },
+                ],
+              },
+              {
+                key: '6',
+                icon: <FileTextOutlined />,
+                label: '报表',
+                children: [
+                  {
+                    key: '6-1',
+                    label: '报表列表',
+                  },
+                ],
+              },
+              {
+                key: '7',
+                icon: <SettingOutlined />,
+                label: '系统设置',
+                children: [
+                  {
+                    key: '7-1',
+                    label: '设置项1',
+                  },
+                ],
+              },
+            ]}
+          />
         </Sider>
         <Content style={{ padding: '24px', background: '#f0f2f5', minHeight: 280 }}>
           <div style={{ background: '#fff', padding: '24px', borderRadius: '8px', boxShadow: '0 2px 8px rgba(0,0,0,0.09)' }}>
@@ -343,125 +422,141 @@ function EditActivity() {
                 <div>
                   <h3 style={{ marginBottom: '16px', fontSize: '14px', fontWeight: 'bold' }}>奖励规则</h3>
                   
-                  <Tabs activeKey={activeTab} onChange={setActiveTab}>
-                    <TabPane tab="新会员首单奖励" key="1">
-                      <Form.Item
-                        label="玩法选择"
-                        name="newMemberPlayType"
-                        rules={[{ required: true, message: '请选择玩法' }]}
-                        style={{ marginBottom: '16px' }}
-                      >
-                        <Select placeholder="请选择玩法">
-                          <Option value="ladder">首单阶梯奖励</Option>
-                          <Option value="repurchase">激励复购</Option>
-                          <Option value="ranking">新顾客邀请排位赛</Option>
-                        </Select>
-                      </Form.Item>
+                  <Tabs
+                    activeKey={activeTab}
+                    onChange={setActiveTab}
+                    items={[
+                      {
+                        key: '1',
+                        label: '新会员首单奖励',
+                        children: (
+                          <>
+                            <Form.Item
+                              label="玩法选择"
+                              name="newMemberPlayType"
+                              rules={[{ required: true, message: '请选择玩法' }]}
+                              style={{ marginBottom: '16px' }}
+                            >
+                              <Select placeholder="请选择玩法">
+                                <Option value="ladder">首单阶梯奖励</Option>
+                                <Option value="repurchase">激励复购</Option>
+                                <Option value="ranking">新顾客邀请排位赛</Option>
+                              </Select>
+                            </Form.Item>
 
-                      {activeTab === '1' && (
-                        <div>
-                          <h4 style={{ marginBottom: '12px', fontSize: '13px', fontWeight: 'bold' }}>首单阶梯奖励规则</h4>
-                          <div style={{ marginBottom: '16px' }}>
-                            {ladderRules.map((rule, index) => (
-                              <div key={rule.id} style={{ display: 'flex', alignItems: 'center', marginBottom: '12px' }}>
-                                <InputNumber
-                                  style={{ width: 80, marginRight: 8 }}
-                                  placeholder="最小单数"
-                                  value={rule.min}
-                                  onChange={(value) => handleLadderRuleChange(index, 'min', value)}
-                                />
-                                <span style={{ marginRight: 8 }}>-</span>
-                                <InputNumber
-                                  style={{ width: 80, marginRight: 8 }}
-                                  placeholder="最大单数"
-                                  value={rule.max}
-                                  onChange={(value) => handleLadderRuleChange(index, 'max', value)}
-                                />
-                                <span style={{ marginRight: 8 }}>单</span>
-                                <span style={{ marginRight: 8 }}>奖励</span>
-                                <InputNumber
-                                  style={{ width: 80, marginRight: 8 }}
-                                  placeholder="奖励金额"
-                                  value={rule.reward}
-                                  onChange={(value) => handleLadderRuleChange(index, 'reward', value)}
-                                />
-                                <span style={{ marginRight: 8 }}>元/单</span>
-                                <Button
-                                  type="text"
-                                  danger
-                                  onClick={() => removeLadderRule(rule.id)}
-                                  style={{ marginLeft: 8 }}
-                                >
-                                  删除
-                                </Button>
+                            {activeTab === '1' && (
+                              <div>
+                                <h4 style={{ marginBottom: '12px', fontSize: '13px', fontWeight: 'bold' }}>首单阶梯奖励规则</h4>
+                                <div style={{ marginBottom: '16px' }}>
+                                  {ladderRules.map((rule, index) => (
+                                    <div key={rule.id} style={{ display: 'flex', alignItems: 'center', marginBottom: '12px' }}>
+                                      <InputNumber
+                                        style={{ width: 80, marginRight: 8 }}
+                                        placeholder="最小单数"
+                                        value={rule.min}
+                                        onChange={(value) => handleLadderRuleChange(index, 'min', value)}
+                                      />
+                                      <span style={{ marginRight: 8 }}>-</span>
+                                      <InputNumber
+                                        style={{ width: 80, marginRight: 8 }}
+                                        placeholder="最大单数"
+                                        value={rule.max}
+                                        onChange={(value) => handleLadderRuleChange(index, 'max', value)}
+                                      />
+                                      <span style={{ marginRight: 8 }}>单</span>
+                                      <span style={{ marginRight: 8 }}>奖励</span>
+                                      <InputNumber
+                                        style={{ width: 80, marginRight: 8 }}
+                                        placeholder="奖励金额"
+                                        value={rule.reward}
+                                        onChange={(value) => handleLadderRuleChange(index, 'reward', value)}
+                                      />
+                                      <span style={{ marginRight: 8 }}>元/单</span>
+                                      <Button
+                                        type="text"
+                                        danger
+                                        onClick={() => removeLadderRule(rule.id)}
+                                        style={{ marginLeft: 8 }}
+                                      >
+                                        删除
+                                      </Button>
+                                    </div>
+                                  ))}
+                                  <Button type="dashed" onClick={addLadderRule} style={{ marginTop: 8 }}>
+                                    添加阶梯规则
+                                  </Button>
+                                </div>
                               </div>
-                            ))}
-                            <Button type="dashed" onClick={addLadderRule} style={{ marginTop: 8 }}>
-                              添加阶梯规则
-                            </Button>
-                          </div>
-                        </div>
-                      )}
-                    </TabPane>
-                    <TabPane tab="新分销员奖励" key="2">
-                      <Form.Item
-                        label="玩法选择"
-                        name="newDistributorPlayType"
-                        rules={[{ required: true, message: '请选择玩法' }]}
-                        style={{ marginBottom: '16px' }}
-                      >
-                        <Select placeholder="请选择玩法">
-                          <Option value="custom">自定义档位配置</Option>
-                          <Option value="ranking">新分销员排位赛</Option>
-                        </Select>
-                      </Form.Item>
+                            )}
+                          </>
+                        )
+                      },
+                      {
+                        key: '2',
+                        label: '新分销员奖励',
+                        children: (
+                          <>
+                            <Form.Item
+                              label="玩法选择"
+                              name="newDistributorPlayType"
+                              rules={[{ required: true, message: '请选择玩法' }]}
+                              style={{ marginBottom: '16px' }}
+                            >
+                              <Select placeholder="请选择玩法">
+                                <Option value="custom">自定义档位配置</Option>
+                                <Option value="ranking">新分销员排位赛</Option>
+                              </Select>
+                            </Form.Item>
 
-                      {activeTab === '2' && (
-                        <div>
-                          <h4 style={{ marginBottom: '12px', fontSize: '13px', fontWeight: 'bold' }}>自定义档位配置</h4>
-                          <div style={{ marginBottom: '16px' }}>
-                            {customRules.map((rule, index) => (
-                              <div key={rule.id} style={{ display: 'flex', alignItems: 'center', marginBottom: '12px' }}>
-                                <span style={{ marginRight: 8 }}>新分销员在注册</span>
-                                <InputNumber
-                                  style={{ width: 60, marginRight: 8 }}
-                                  placeholder="天数"
-                                  value={rule.days}
-                                  onChange={(value) => handleCustomRuleChange(index, 'days', value)}
-                                />
-                                <span style={{ marginRight: 8 }}>天内完成</span>
-                                <InputNumber
-                                  style={{ width: 80, marginRight: 8 }}
-                                  placeholder="订单金额"
-                                  value={rule.amount}
-                                  onChange={(value) => handleCustomRuleChange(index, 'amount', value)}
-                                />
-                                <span style={{ marginRight: 8 }}>元推广订单，可获得</span>
-                                <InputNumber
-                                  style={{ width: 80, marginRight: 8 }}
-                                  placeholder="奖励金额"
-                                  value={rule.reward}
-                                  onChange={(value) => handleCustomRuleChange(index, 'reward', value)}
-                                />
-                                <span style={{ marginRight: 8 }}>元</span>
-                                <Button
-                                  type="text"
-                                  danger
-                                  onClick={() => removeCustomRule(rule.id)}
-                                  style={{ marginLeft: 8 }}
-                                >
-                                  删除
-                                </Button>
+                            {activeTab === '2' && (
+                              <div>
+                                <h4 style={{ marginBottom: '12px', fontSize: '13px', fontWeight: 'bold' }}>自定义档位配置</h4>
+                                <div style={{ marginBottom: '16px' }}>
+                                  {customRules.map((rule, index) => (
+                                    <div key={rule.id} style={{ display: 'flex', alignItems: 'center', marginBottom: '12px' }}>
+                                      <span style={{ marginRight: 8 }}>新分销员在注册</span>
+                                      <InputNumber
+                                        style={{ width: 60, marginRight: 8 }}
+                                        placeholder="天数"
+                                        value={rule.days}
+                                        onChange={(value) => handleCustomRuleChange(index, 'days', value)}
+                                      />
+                                      <span style={{ marginRight: 8 }}>天内完成</span>
+                                      <InputNumber
+                                        style={{ width: 80, marginRight: 8 }}
+                                        placeholder="订单金额"
+                                        value={rule.amount}
+                                        onChange={(value) => handleCustomRuleChange(index, 'amount', value)}
+                                      />
+                                      <span style={{ marginRight: 8 }}>元推广订单，可获得</span>
+                                      <InputNumber
+                                        style={{ width: 80, marginRight: 8 }}
+                                        placeholder="奖励金额"
+                                        value={rule.reward}
+                                        onChange={(value) => handleCustomRuleChange(index, 'reward', value)}
+                                      />
+                                      <span style={{ marginRight: 8 }}>元</span>
+                                      <Button
+                                        type="text"
+                                        danger
+                                        onClick={() => removeCustomRule(rule.id)}
+                                        style={{ marginLeft: 8 }}
+                                      >
+                                        删除
+                                      </Button>
+                                    </div>
+                                  ))}
+                                  <Button type="dashed" onClick={addCustomRule} style={{ marginTop: 8 }}>
+                                    添加档位配置
+                                  </Button>
+                                </div>
                               </div>
-                            ))}
-                            <Button type="dashed" onClick={addCustomRule} style={{ marginTop: 8 }}>
-                              添加档位配置
-                            </Button>
-                          </div>
-                        </div>
-                      )}
-                    </TabPane>
-                  </Tabs>
+                            )}
+                          </>
+                        )
+                      },
+                    ]}
+                  />
 
                   <div style={{ marginTop: '24px', textAlign: 'right' }}>
                     <Button onClick={handlePrevious} style={{ marginRight: 8 }}>上一步</Button>
