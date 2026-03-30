@@ -1,0 +1,91 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #333;
+  background-color: #f0f2f5;
+}
+
+#root {
+  height: 100vh;
+}
+
+.ant-layout {
+  height: 100%;
+}
+
+.ant-layout-sider {
+  background-color: #fff;
+}
+
+.ant-menu-light {
+  background-color: #fff;
+}
+
+.ant-menu-submenu-title {
+  height: 48px !important;
+  line-height: 48px !important;
+}
+
+.ant-menu-item {
+  height: 40px !important;
+  line-height: 40px !important;
+}
+
+.ant-menu-submenu-selected > .ant-menu-submenu-title {
+  background-color: #1890ff !important;
+  color: #fff !important;
+}
+
+.ant-menu-item-selected {
+  color: #1890ff !important;
+}
+
+.ant-menu-item-selected::after {
+  border-right: 3px solid #1890ff !important;
+}
+
+.ant-layout-content {
+  padding: 24px;
+  overflow: auto;
+}
+
+.ant-card {
+  margin-bottom: 24px;
+}
+
+.ant-btn {
+  margin-right: 8px;
+}
+
+.ant-table {
+  margin-top: 16px;
+}
+
+.ant-pagination {
+  margin-top: 16px;
+  text-align: right;
+}
+
+.ant-breadcrumb {
+  margin-bottom: 16px;
+}
+
+.ant-tabs {
+  margin-bottom: 16px;
+}
+
+.ant-input {
+  width: 200px;
+  margin-right: 8px;
+}
+
+.ant-picker {
+  margin-right: 8px;
+}
