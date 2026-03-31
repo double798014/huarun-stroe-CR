@@ -21,6 +21,7 @@ import CreateActivity from './CreateActivity';
 import EditActivity from './EditActivity';
 
 const { Header, Sider, Content } = Layout;
+const { RangePicker } = DatePicker;
 
 // 模拟数据
 const activityData = [
@@ -89,59 +90,67 @@ function ActivityList() {
   // 表格列定义
   const columns = [
     {
-      title: <input type="checkbox" />,
+      title: <input type="checkbox" data-prd-comment="PRD: 表格 - 选择框，用于批量操作" />,
       dataIndex: 'checkbox',
       key: 'checkbox',
       width: 40,
-      render: () => <input type="checkbox" />
+      render: () => <input type="checkbox" data-prd-comment="PRD: 表格 - 选择框，用于选择单个活动" />
     },
     {
       title: '活动名称',
       dataIndex: 'activityName',
       key: 'activityName',
-      width: 120
+      width: 120,
+      render: (text) => <span data-prd-comment="PRD: 表格列 - 活动的名称">{text}</span>
     },
     {
       title: '活动类型',
       dataIndex: 'activityType',
       key: 'activityType',
-      width: 120
+      width: 120,
+      render: (text) => <span data-prd-comment="PRD: 表格列 - 活动的类型，枚举值：新会员首单奖励、新分销员奖励">{text}</span>
     },
     {
       title: '时间口径',
       dataIndex: 'timeType',
       key: 'timeType',
-      width: 80
+      width: 80,
+      render: (text) => <span data-prd-comment="PRD: 表格列 - 时间口径，如下单时间">{text}</span>
     },
     {
       title: '活动时间',
       dataIndex: 'activityTime',
       key: 'activityTime',
-      width: 200
+      width: 200,
+      render: (text) => <span data-prd-comment="PRD: 表格列 - 活动的时间范围">{text}</span>
     },
     {
       title: '有效订单金额',
       dataIndex: 'minOrderAmount',
       key: 'minOrderAmount',
-      width: 100
+      width: 100,
+      render: (text) => <span data-prd-comment="PRD: 表格列 - 大于等于此金额的订单才会发放佣金">{text}</span>
     },
     {
       title: '奖励佣金',
       dataIndex: 'reward',
       key: 'reward',
-      width: 80
+      width: 80,
+      render: (text) => <span data-prd-comment="PRD: 表格列 - 首单奖励的佣金金额">{text}</span>
     },
     {
       title: '小程序展示名称',
       dataIndex: 'miniAppName',
       key: 'miniAppName',
-      width: 120
+      width: 120,
+      render: (text) => <span data-prd-comment="PRD: 表格列 - 在小程序中展示的活动名称">{text}</span>
     },
     {
       title: '创建时间',
       dataIndex: 'createTime',
       key: 'createTime',
-      width: 150
+      width: 150,
+      render: (text) => <span data-prd-comment="PRD: 表格列 - 活动的创建时间">{text}</span>
     },
     {
       title: '操作',
@@ -149,10 +158,10 @@ function ActivityList() {
       width: 200,
       render: (_, record) => (
         <Space size="small">
-          <a onClick={() => handleEditActivity(record.activityId)}>编辑</a>
-          <a>终止佣金规则</a>
-          <a>规则说明</a>
-          <a>配置导出</a>
+          <a onClick={() => handleEditActivity(record.activityId)} data-prd-comment="PRD: 操作 - 编辑活动，点击后跳转到编辑首单活动页面">编辑</a>
+          <a data-prd-comment="PRD: 操作 - 终止佣金规则，点击后需要二次确认弹窗">终止佣金规则</a>
+          <a data-prd-comment="PRD: 操作 - 规则说明，点击后查看活动的规则说明">规则说明</a>
+          <a data-prd-comment="PRD: 操作 - 配置导出，点击后导出活动的配置信息">配置导出</a>
         </Space>
       )
     }
@@ -186,7 +195,7 @@ function ActivityList() {
           <Badge count={5} style={{ marginRight: '16px' }}>
             <BellOutlined style={{ fontSize: '18px', color: '#666' }} />
           </Badge>
-          <Dropdown overlay={userMenu} trigger={['click']}>
+          <Dropdown menu={userMenu} trigger={['click']}>
             <div style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}>
               <Avatar size="small" icon={<UserOutlined />} style={{ marginRight: '8px' }} />
               <span style={{ marginRight: '4px' }}>苏曼</span>
@@ -324,37 +333,37 @@ function ActivityList() {
                         
                         <div style={{ marginBottom: '12px' }}>
                           <Space size="small">
-                            <Button size="small" type={activeStatus === '待提交' ? 'primary' : 'default'} onClick={() => handleStatusClick('待提交')}>待提交</Button>
-                            <Button size="small" type={activeStatus === '审核中' ? 'primary' : 'default'} onClick={() => handleStatusClick('审核中')}>审核中</Button>
-                            <Button size="small" type={activeStatus === '审核不通过' ? 'primary' : 'default'} onClick={() => handleStatusClick('审核不通过')}>审核不通过</Button>
-                            <Button size="small" type={activeStatus === '未开始' ? 'primary' : 'default'} onClick={() => handleStatusClick('未开始')}>未开始</Button>
-                            <Button size="small" type={activeStatus === '进行中' ? 'primary' : 'default'} onClick={() => handleStatusClick('进行中')}>进行中</Button>
-                            <Button size="small" type={activeStatus === '已终止' ? 'primary' : 'default'} onClick={() => handleStatusClick('已终止')}>已终止</Button>
-                            <Button size="small" type={activeStatus === '已结束' ? 'primary' : 'default'} onClick={() => handleStatusClick('已结束')}>已结束</Button>
+                            <Button size="small" type={activeStatus === '待提交' ? 'primary' : 'default'} onClick={() => handleStatusClick('待提交')} data-prd-comment="PRD: 筛选模块 - 按活动状态筛选，选项：待提交">待提交</Button>
+                            <Button size="small" type={activeStatus === '审核中' ? 'primary' : 'default'} onClick={() => handleStatusClick('审核中')} data-prd-comment="PRD: 筛选模块 - 按活动状态筛选，选项：审核中">审核中</Button>
+                            <Button size="small" type={activeStatus === '审核不通过' ? 'primary' : 'default'} onClick={() => handleStatusClick('审核不通过')} data-prd-comment="PRD: 筛选模块 - 按活动状态筛选，选项：审核不通过">审核不通过</Button>
+                            <Button size="small" type={activeStatus === '未开始' ? 'primary' : 'default'} onClick={() => handleStatusClick('未开始')} data-prd-comment="PRD: 筛选模块 - 按活动状态筛选，选项：未开始">未开始</Button>
+                            <Button size="small" type={activeStatus === '进行中' ? 'primary' : 'default'} onClick={() => handleStatusClick('进行中')} data-prd-comment="PRD: 筛选模块 - 按活动状态筛选，选项：进行中">进行中</Button>
+                            <Button size="small" type={activeStatus === '已终止' ? 'primary' : 'default'} onClick={() => handleStatusClick('已终止')} data-prd-comment="PRD: 筛选模块 - 按活动状态筛选，选项：已终止">已终止</Button>
+                            <Button size="small" type={activeStatus === '已结束' ? 'primary' : 'default'} onClick={() => handleStatusClick('已结束')} data-prd-comment="PRD: 筛选模块 - 按活动状态筛选，选项：已结束">已结束</Button>
                           </Space>
                         </div>
                         
                         <div style={{ marginBottom: '12px' }}>
                           <Space size="small">
-                            <Button size="small" type="primary">查询</Button>
-                            <Button size="small">重置</Button>
-                            <Button size="small" type="primary" style={{ backgroundColor: '#1890ff', borderColor: '#1890ff' }} onClick={handleCreateActivity}>新增活动</Button>
-                            <Button size="small" danger>终止</Button>
+                            <Button size="small" type="primary" data-prd-comment="PRD: 操作 - 点击查询按钮，根据筛选条件查询活动">查询</Button>
+                            <Button size="small" data-prd-comment="PRD: 操作 - 点击重置按钮，清空筛选条件">重置</Button>
+                            <Button size="small" type="primary" style={{ backgroundColor: '#1890ff', borderColor: '#1890ff' }} onClick={handleCreateActivity} data-prd-comment="PRD: 操作 - 点击新增活动按钮，跳转到新增首单活动页面">新增活动</Button>
+                            <Button size="small" danger data-prd-comment="PRD: 操作 - 点击终止按钮，终止选中的活动">终止</Button>
                           </Space>
                         </div>
                         
                         <div style={{ marginBottom: '12px', display: 'flex', alignItems: 'center', flexWrap: 'wrap', fontSize: '12px' }}>
                           <span style={{ marginRight: '4px' }}>活动ID：</span>
-                          <Input size="small" placeholder="请输入活动ID" style={{ width: 150, marginRight: '12px' }} />
+                          <Input size="small" placeholder="请输入活动ID" style={{ width: 150, marginRight: '12px' }} data-prd-comment="PRD: 筛选模块 - 按活动ID模糊搜索" />
                           
                           <span style={{ marginRight: '4px' }}>活动名称：</span>
-                          <Input size="small" placeholder="请输入活动名称" style={{ width: 150, marginRight: '12px' }} />
+                          <Input size="small" placeholder="请输入活动名称" style={{ width: 150, marginRight: '12px' }} data-prd-comment="PRD: 筛选模块 - 按活动名称模糊搜索" />
                           
                           <span style={{ marginRight: '4px' }}>创建时间：</span>
-                          <DatePicker size="small" style={{ marginRight: '12px' }} />
+                          <DatePicker size="small" style={{ marginRight: '12px' }} data-prd-comment="PRD: 筛选模块 - 按创建时间筛选" />
                           
                           <span style={{ marginRight: '4px' }}>活动时间：</span>
-                          <RangePicker size="small" style={{ marginRight: '12px' }} />
+                          <RangePicker size="small" style={{ marginRight: '12px' }} data-prd-comment="PRD: 筛选模块 - 按活动时间范围筛选" />
                         </div>
                       </div>
                       

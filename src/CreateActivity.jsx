@@ -234,7 +234,7 @@ function CreateActivity() {
         <Content style={{ padding: '24px', background: '#f0f2f5', minHeight: 280 }}>
           <div style={{ background: '#fff', padding: '24px', borderRadius: '8px', boxShadow: '0 2px 8px rgba(0,0,0,0.09)' }}>
             <div style={{ marginBottom: '24px' }}>
-              <Button type="text" icon={<ArrowLeftOutlined />} onClick={handleBack}>返回上一页</Button>
+              <Button type="text" icon={<ArrowLeftOutlined />} onClick={handleBack} data-prd-comment="PRD: 操作 - 点击返回上一页按钮，放弃当前操作，返回活动列表页面">返回上一页</Button>
             </div>
 
             <Form
@@ -253,7 +253,7 @@ function CreateActivity() {
                       rules={[{ required: true, message: '请输入活动名称' }]}
                       style={{ width: '48%', marginRight: '4%', marginBottom: '16px' }}
                     >
-                      <Input placeholder="请输入活动名称" maxLength={50} />
+                      <Input placeholder="请输入活动名称" maxLength={50} data-prd-comment="PRD: 表单字段 - 活动的名称，字符串" />
                     </Form.Item>
 
                     <Form.Item
@@ -262,7 +262,7 @@ function CreateActivity() {
                       rules={[{ required: true, message: '请选择活动类型' }]}
                       style={{ width: '48%', marginBottom: '16px' }}
                     >
-                      <Select placeholder="请选择活动类型">
+                      <Select placeholder="请选择活动类型" data-prd-comment="PRD: 表单字段 - 活动的类型，枚举值：新会员首单奖励、新分销员奖励">
                         <Option value="newMember">根据新会员首单奖励</Option>
                         <Option value="newDistributor">根据新分销员首单奖励</Option>
                       </Select>
@@ -276,9 +276,9 @@ function CreateActivity() {
                       rules={[{ required: true, message: '请选择时间口径' }]}
                       style={{ marginBottom: '16px' }}
                     >
-                      <Radio.Group>
-                        <Radio value="orderTime">下单时间</Radio>
-                        <Radio value="registerTime">注册时间</Radio>
+                      <Radio.Group data-prd-comment="PRD: 表单字段 - 时间口径，选项：下单时间、注册时间">
+                        <Radio value="orderTime" data-prd-comment="PRD: 表单字段 - 时间口径选项：下单时间">下单时间</Radio>
+                        <Radio value="registerTime" data-prd-comment="PRD: 表单字段 - 时间口径选项：注册时间">注册时间</Radio>
                       </Radio.Group>
                     </Form.Item>
                   </div>
@@ -290,7 +290,7 @@ function CreateActivity() {
                       rules={[{ required: true, message: '请选择活动时间' }]}
                       style={{ width: '48%', marginRight: '4%', marginBottom: '16px' }}
                     >
-                      <RangePicker style={{ width: '100%' }} />
+                      <RangePicker style={{ width: '100%' }} data-prd-comment="PRD: 表单字段 - 活动的时间范围" />
                     </Form.Item>
 
                     <Form.Item
@@ -298,7 +298,7 @@ function CreateActivity() {
                       name="registerTime"
                       style={{ width: '48%', marginBottom: '16px' }}
                     >
-                      <RangePicker style={{ width: '100%' }} />
+                      <RangePicker style={{ width: '100%' }} data-prd-comment="PRD: 表单字段 - 新用户注册时间范围" />
                     </Form.Item>
                   </div>
 
@@ -309,8 +309,13 @@ function CreateActivity() {
                       rules={[{ required: true, message: '请输入有效订单金额' }]}
                       style={{ width: '48%', marginRight: '4%', marginBottom: '16px' }}
                     >
-                      <Input addonAfter="元" placeholder="请输入有效订单金额" />
-                      <div style={{ marginTop: 4, fontSize: 12, color: '#666' }}>大于等于有效金额的订单才会发放佣金</div>
+                      <div>
+                        <Space.Compact data-prd-comment="PRD: 表单字段 - 大于等于此金额的订单才会发放佣金，数字，单位：元">
+                          <Input placeholder="请输入有效订单金额" />
+                          <span>元</span>
+                        </Space.Compact>
+                        <div style={{ marginTop: 4, fontSize: 12, color: '#666' }}>大于等于有效金额的订单才会发放佣金</div>
+                      </div>
                     </Form.Item>
 
                     <Form.Item
@@ -319,7 +324,10 @@ function CreateActivity() {
                       rules={[{ required: true, message: '请输入奖励佣金' }]}
                       style={{ width: '48%', marginBottom: '16px' }}
                     >
-                      <Input addonAfter="元" placeholder="请输入奖励佣金" />
+                      <Space.Compact data-prd-comment="PRD: 表单字段 - 首单奖励的佣金金额，数字，单位：元">
+                        <Input placeholder="请输入奖励佣金" />
+                        <span>元</span>
+                      </Space.Compact>
                     </Form.Item>
                   </div>
 
@@ -330,7 +338,7 @@ function CreateActivity() {
                       rules={[{ required: true, message: '请输入小程序展示名称' }]}
                       style={{ width: '48%', marginRight: '4%', marginBottom: '16px' }}
                     >
-                      <Input placeholder="请输入小程序展示名称" maxLength={50} />
+                      <Input placeholder="请输入小程序展示名称" maxLength={50} data-prd-comment="PRD: 表单字段 - 在小程序中展示的活动名称，字符串" />
                     </Form.Item>
                   </div>
 
@@ -347,6 +355,7 @@ function CreateActivity() {
                         onChange={handleUpload}
                         listType="picture"
                         maxCount={1}
+                        data-prd-comment="PRD: 表单字段 - 活动封面图，推荐尺寸：702*320"
                       >
                         <div style={{ width: 120, height: 120, border: '1px dashed #d9d9d9', borderRadius: 4, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
                           <div style={{ textAlign: 'center' }}>
@@ -360,7 +369,7 @@ function CreateActivity() {
                   </div>
 
                   <div style={{ marginTop: '24px', textAlign: 'center' }}>
-                    <Button type="primary" onClick={handleNext}>下一步</Button>
+                    <Button type="primary" onClick={handleNext} data-prd-comment="PRD: 操作 - 点击下一步按钮，进入奖励规则配置页面">下一步</Button>
                   </div>
                 </div>
               )}
@@ -384,7 +393,7 @@ function CreateActivity() {
                               rules={[{ required: true, message: '请选择玩法' }]}
                               style={{ marginBottom: '16px' }}
                             >
-                              <Select placeholder="请选择玩法">
+                              <Select placeholder="请选择玩法" data-prd-comment="PRD: 表单字段 - 新会员首单奖励的玩法类型，枚举值：首单阶梯奖励、激励复购、新顾客邀请排位赛">
                                 <Option value="ladder">首单阶梯奖励</Option>
                                 <Option value="repurchase">激励复购</Option>
                                 <Option value="ranking">新顾客邀请排位赛</Option>
@@ -402,6 +411,7 @@ function CreateActivity() {
                                         placeholder="最小单数"
                                         value={rule.min}
                                         onChange={(value) => handleLadderRuleChange(index, 'min', value)}
+                                        data-prd-comment="PRD: 表单字段 - 首单阶梯奖励规则：最小单数"
                                       />
                                       <span style={{ marginRight: 8 }}>-</span>
                                       <InputNumber
@@ -409,6 +419,7 @@ function CreateActivity() {
                                         placeholder="最大单数"
                                         value={rule.max}
                                         onChange={(value) => handleLadderRuleChange(index, 'max', value)}
+                                        data-prd-comment="PRD: 表单字段 - 首单阶梯奖励规则：最大单数"
                                       />
                                       <span style={{ marginRight: 8 }}>单</span>
                                       <span style={{ marginRight: 8 }}>奖励</span>
@@ -417,6 +428,7 @@ function CreateActivity() {
                                         placeholder="奖励金额"
                                         value={rule.reward}
                                         onChange={(value) => handleLadderRuleChange(index, 'reward', value)}
+                                        data-prd-comment="PRD: 表单字段 - 首单阶梯奖励规则：奖励金额"
                                       />
                                       <span style={{ marginRight: 8 }}>元/单</span>
                                       <Button
@@ -424,12 +436,13 @@ function CreateActivity() {
                                         danger
                                         onClick={() => removeLadderRule(rule.id)}
                                         style={{ marginLeft: 8 }}
+                                        data-prd-comment="PRD: 操作 - 删除首单阶梯奖励规则"
                                       >
                                         删除
                                       </Button>
                                     </div>
                                   ))}
-                                  <Button type="dashed" onClick={addLadderRule} style={{ marginTop: 8 }}>
+                                  <Button type="dashed" onClick={addLadderRule} style={{ marginTop: 8 }} data-prd-comment="PRD: 操作 - 添加首单阶梯奖励规则">
                                     添加阶梯规则
                                   </Button>
                                 </div>
@@ -449,7 +462,7 @@ function CreateActivity() {
                               rules={[{ required: true, message: '请选择玩法' }]}
                               style={{ marginBottom: '16px' }}
                             >
-                              <Select placeholder="请选择玩法">
+                              <Select placeholder="请选择玩法" data-prd-comment="PRD: 表单字段 - 新分销员奖励的玩法类型，枚举值：自定义档位配置、新分销员排位赛">
                                 <Option value="custom">自定义档位配置</Option>
                                 <Option value="ranking">新分销员排位赛</Option>
                               </Select>
@@ -467,6 +480,7 @@ function CreateActivity() {
                                         placeholder="天数"
                                         value={rule.days}
                                         onChange={(value) => handleCustomRuleChange(index, 'days', value)}
+                                        data-prd-comment="PRD: 表单字段 - 自定义档位配置：注册天数"
                                       />
                                       <span style={{ marginRight: 8 }}>天内完成</span>
                                       <InputNumber
@@ -474,6 +488,7 @@ function CreateActivity() {
                                         placeholder="订单金额"
                                         value={rule.amount}
                                         onChange={(value) => handleCustomRuleChange(index, 'amount', value)}
+                                        data-prd-comment="PRD: 表单字段 - 自定义档位配置：订单金额"
                                       />
                                       <span style={{ marginRight: 8 }}>元推广订单，可获得</span>
                                       <InputNumber
@@ -481,6 +496,7 @@ function CreateActivity() {
                                         placeholder="奖励金额"
                                         value={rule.reward}
                                         onChange={(value) => handleCustomRuleChange(index, 'reward', value)}
+                                        data-prd-comment="PRD: 表单字段 - 自定义档位配置：奖励金额"
                                       />
                                       <span style={{ marginRight: 8 }}>元</span>
                                       <Button
@@ -488,12 +504,13 @@ function CreateActivity() {
                                         danger
                                         onClick={() => removeCustomRule(rule.id)}
                                         style={{ marginLeft: 8 }}
+                                        data-prd-comment="PRD: 操作 - 删除自定义档位配置规则"
                                       >
                                         删除
                                       </Button>
                                     </div>
                                   ))}
-                                  <Button type="dashed" onClick={addCustomRule} style={{ marginTop: 8 }}>
+                                  <Button type="dashed" onClick={addCustomRule} style={{ marginTop: 8 }} data-prd-comment="PRD: 操作 - 添加自定义档位配置规则">
                                     添加档位配置
                                   </Button>
                                 </div>
@@ -506,8 +523,8 @@ function CreateActivity() {
                   />
 
                   <div style={{ marginTop: '24px', textAlign: 'right' }}>
-                    <Button onClick={handlePrevious} style={{ marginRight: 8 }}>上一步</Button>
-                    <Button type="primary" htmlType="submit">提交</Button>
+                    <Button onClick={handlePrevious} style={{ marginRight: 8 }} data-prd-comment="PRD: 操作 - 点击上一步按钮，返回活动信息页面">上一步</Button>
+                    <Button type="primary" htmlType="submit" data-prd-comment="PRD: 操作 - 点击提交按钮，保存活动信息，返回活动列表页面">提交</Button>
                   </div>
                 </div>
               )}

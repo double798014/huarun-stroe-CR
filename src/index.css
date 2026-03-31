@@ -89,3 +89,39 @@ body {
 .ant-picker {
   margin-right: 8px;
 }
+
+/* PRD标注样式 */
+[data-prd-comment] {
+  position: relative;
+  cursor: help;
+  border-bottom: 1px dashed #1890ff;
+}
+
+[data-prd-comment]:hover::after {
+  content: attr(data-prd-comment);
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  background-color: #333;
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  z-index: 9999;
+  margin-bottom: 5px;
+  max-width: 400px;
+  white-space: normal;
+  word-wrap: break-word;
+}
+
+[data-prd-comment]:hover::before {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 10px;
+  border: 5px solid transparent;
+  border-top-color: #333;
+  margin-bottom: -5px;
+  z-index: 9999;
+}
