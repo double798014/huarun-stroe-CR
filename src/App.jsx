@@ -14,14 +14,15 @@ import {
   Pagination,
   Badge,
   Dropdown,
-  Avatar
+  Avatar,
+  ConfigProvider
 } from 'antd';
+import zhCN from 'antd/locale/zh_CN';
 import { UserOutlined, BellOutlined, DownOutlined, ShopOutlined, HomeOutlined, DollarOutlined, CalendarOutlined, FileTextOutlined, SettingOutlined, MenuOutlined, PlusOutlined } from '@ant-design/icons';
 import CreateActivity from './CreateActivity';
 import EditActivity from './EditActivity';
 
 const { Header, Sider, Content } = Layout;
-const { RangePicker } = DatePicker;
 
 // 模拟数据
 const activityData = [
@@ -363,7 +364,7 @@ function ActivityList() {
                           <DatePicker size="small" style={{ marginRight: '12px' }} data-prd-comment="PRD: 筛选模块 - 按创建时间筛选" />
                           
                           <span style={{ marginRight: '4px' }}>活动时间：</span>
-                          <RangePicker size="small" style={{ marginRight: '12px' }} data-prd-comment="PRD: 筛选模块 - 按活动时间范围筛选" />
+                          <DatePicker.RangePicker size="small" style={{ marginRight: '12px' }} data-prd-comment="PRD: 筛选模块 - 按活动时间范围筛选" />
                         </div>
                       </div>
                       

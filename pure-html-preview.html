@@ -1,0 +1,667 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>全员带货后台管理系统</title>
+    <style>
+      *{margin:0;padding:0;box-sizing:border-box}
+      body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,sans-serif;font-size:14px;line-height:1.5;color:#333;background-color:#f0f2f5}
+      .header{display:flex;align-items:center;justify-content:space-between;padding:0 24px;background-color:#fff;box-shadow:0 2px 8px rgba(0,0,0,0.1);height:60px}
+      .logo{font-size:18px;font-weight:bold;margin-right:24px}
+      .layout{display:flex}
+      .sider{width:200px;background:#fff;border-right:1px solid #f0f0f0}
+      .menu-item{padding:12px 24px;cursor:pointer;display:flex;align-items:center;color:#333}
+      .menu-item:hover{background:#f5f5f5}
+      .menu-item.active{background:#e6f7ff;color:#1890ff}
+      .menu-icon{margin-right:8px}
+      .submenu{padding-left:24px}
+      .submenu-item{padding:8px 12px 8px 32px;cursor:pointer;color:#666;font-size:13px}
+      .submenu-item:hover{color:#1890ff}
+      .submenu-item.active{color:#1890ff}
+      .content{padding:24px;background:#f0f2f5;flex:1}
+      .card{background:#fff;padding:24px;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.09)}
+      .title{font-size:14px;font-weight:bold;margin-bottom:4px}
+      .desc{color:#666;font-size:12px;margin-bottom:12px}
+      .btn{padding:4px 12px;border:1px solid #d9d9d9;background:#fff;cursor:pointer;border-radius:4px;font-size:12px;margin-right:8px}
+      .btn-primary{background:#1890ff;color:#fff;border-color:#1890ff}
+      .btn-danger{background:#ff4d4f;color:#fff;border-color:#ff4d4f}
+      .btn-text{background:transparent;border:none;color:#1890ff;padding:4px 8px}
+      .input{padding:4px 8px;border:1px solid #d9d9d9;border-radius:4px;font-size:12px;width:150px;margin-right:12px}
+      table{width:100%;border-collapse:collapse;font-size:12px;margin-top:12px}
+      th,td{border:1px solid #f0f0f0;padding:8px;text-align:left}
+      th{background:#fafafa}
+      .footer{margin-top:24px;text-align:center;color:#666;font-size:12px}
+      .page{display:none}
+      .page.active{display:block}
+      .form-item{margin-bottom:16px}
+      .form-label{display:block;margin-bottom:4px;font-size:12px;color:#333}
+      .form-input{width:100%;padding:4px 8px;border:1px solid #d9d9d9;border-radius:4px;font-size:12px}
+      .form-row{display:flex;gap:16px;margin-bottom:16px}
+      .form-col{flex:1}
+      .step{display:none}
+      .step.active{display:block}
+      .step-title{font-size:14px;font-weight:bold;margin-bottom:16px}
+      .rule-item{display:flex;align-items:center;margin-bottom:12px}
+      .rule-input{width:80px;padding:4px 8px;border:1px solid #d9d9d9;border-radius:4px;font-size:12px;margin-right:8px}
+      .rule-btn{padding:4px 8px;border:1px dashed #d9d9d9;background:#fff;cursor:pointer;border-radius:4px;font-size:12px}
+      .modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);display:none;align-items:center;justify-content:center;z-index:1000}
+      .modal-overlay.active{display:flex}
+      .modal{background:#fff;padding:24px;border-radius:8px;max-width:400px;width:90%}
+      .modal-title{font-size:16px;font-weight:bold;margin-bottom:16px}
+      .modal-actions{margin-top:24px;text-align:right}
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <div style="display:flex;align-items:center">
+        <span class="logo">全员带货后台管理系统-SIT</span>
+        <span id="breadcrumb">活动 / 首单活动</span>
+      </div>
+      <div style="display:flex;align-items:center">
+        <span style="margin-right:16px">🔔 (5)</span>
+        <div style="display:flex;align-items:center;cursor:pointer">
+          <span style="background:#1890ff;color:#fff;border-radius:50%;width:24px;height:24px;display:inline-flex;align-items:center;justify-content:center;margin-right:8px;font-size:12px">苏</span>
+          <span style="margin-right:4px">苏曼</span>
+          <span style="font-size:12px">▼</span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="layout">
+      <div class="sider">
+        <div class="menu-item">
+          <span class="menu-icon">🏪</span>
+          <span>商品</span>
+        </div>
+        <div class="submenu">
+          <div class="submenu-item">商品列表</div>
+        </div>
+        
+        <div class="menu-item">
+          <span class="menu-icon">🏠</span>
+          <span>门店</span>
+        </div>
+        <div class="submenu">
+          <div class="submenu-item">门店列表</div>
+        </div>
+        
+        <div class="menu-item">
+          <span class="menu-icon">💰</span>
+          <span>佣金</span>
+        </div>
+        <div class="submenu">
+          <div class="submenu-item">佣金列表</div>
+        </div>
+        
+        <div class="menu-item">
+          <span class="menu-icon">📅</span>
+          <span>活动</span>
+        </div>
+        <div class="submenu">
+          <div class="submenu-item">拉新活动</div>
+          <div class="submenu-item active">首单活动</div>
+          <div class="submenu-item">万家商城活动</div>
+          <div class="submenu-item">地推拉新活动</div>
+        </div>
+        
+        <div class="menu-item">
+          <span class="menu-icon">📋</span>
+          <span>任务</span>
+        </div>
+        <div class="submenu">
+          <div class="submenu-item">任务列表</div>
+        </div>
+        
+        <div class="menu-item">
+          <span class="menu-icon">📊</span>
+          <span>报表</span>
+        </div>
+        <div class="submenu">
+          <div class="submenu-item">报表列表</div>
+        </div>
+        
+        <div class="menu-item">
+          <span class="menu-icon">⚙️</span>
+          <span>系统设置</span>
+        </div>
+        <div class="submenu">
+          <div class="submenu-item">设置项1</div>
+        </div>
+      </div>
+      
+      <div class="content">
+        <div id="page-list" class="page active">
+          <div class="card">
+            <div class="title">首单奖励活动</div>
+            <div class="desc">若万家超市下单用户为新用户，则给与对应引导新用户下单的促销员首单奖励</div>
+            
+            <div style="margin-bottom:12px">
+              <button class="btn btn-primary" onclick="filterByStatus('进行中')" data-prd-comment="PRD: 筛选模块 - 按活动状态筛选，选项：进行中">进行中</button>
+              <button class="btn" onclick="filterByStatus('待提交')" data-prd-comment="PRD: 筛选模块 - 按活动状态筛选，选项：待提交">待提交</button>
+              <button class="btn" onclick="filterByStatus('审核中')" data-prd-comment="PRD: 筛选模块 - 按活动状态筛选，选项：审核中">审核中</button>
+              <button class="btn" onclick="filterByStatus('未开始')" data-prd-comment="PRD: 筛选模块 - 按活动状态筛选，选项：未开始">未开始</button>
+            </div>
+            
+            <div style="margin-bottom:12px">
+              <button class="btn btn-primary" onclick="queryActivities()" data-prd-comment="PRD: 操作 - 点击查询按钮，根据筛选条件查询活动">查询</button>
+              <button class="btn" onclick="resetFilters()" data-prd-comment="PRD: 操作 - 点击重置按钮，清空筛选条件">重置</button>
+              <button class="btn btn-primary" onclick="showPage('create')" data-prd-comment="PRD: 操作 - 点击新增活动按钮，跳转到新增首单活动页面">新增活动</button>
+              <button class="btn btn-danger" onclick="confirmTerminate()" data-prd-comment="PRD: 操作 - 点击终止按钮，终止选中的活动">终止</button>
+            </div>
+            
+            <div style="margin-bottom:12px;display:flex;align-items:center;flex-wrap:wrap;font-size:12px">
+              <span style="margin-right:4px">活动ID：</span>
+              <input class="input" id="filter-activity-id" placeholder="请输入活动ID" data-prd-comment="PRD: 筛选模块 - 按活动ID模糊搜索" />
+              <span style="margin-right:4px">活动名称：</span>
+              <input class="input" id="filter-activity-name" placeholder="请输入活动名称" data-prd-comment="PRD: 筛选模块 - 按活动名称模糊搜索" />
+              <span style="margin-right:4px">创建时间：</span>
+              <input class="input" type="date" id="filter-create-time" data-prd-comment="PRD: 筛选模块 - 按创建时间筛选" />
+              <span style="margin-right:4px">活动时间：</span>
+              <input class="input" type="date" id="filter-activity-time" data-prd-comment="PRD: 筛选模块 - 按活动时间范围筛选" />
+            </div>
+            
+            <table>
+              <thead>
+                <tr>
+                  <th><input type="checkbox" data-prd-comment="PRD: 表格 - 选择框，用于批量操作" /></th>
+                  <th data-prd-comment="PRD: 表格列 - 活动的名称">活动名称</th>
+                  <th data-prd-comment="PRD: 表格列 - 活动的类型，枚举值：新会员首单奖励、新分销员奖励">活动类型</th>
+                  <th data-prd-comment="PRD: 表格列 - 时间口径，如下单时间">时间口径</th>
+                  <th data-prd-comment="PRD: 表格列 - 活动的时间范围">活动时间</th>
+                  <th data-prd-comment="PRD: 表格列 - 大于等于此金额的订单才会发放佣金">有效订单金额</th>
+                  <th data-prd-comment="PRD: 表格列 - 首单奖励的佣金金额">奖励佣金</th>
+                  <th data-prd-comment="PRD: 表格列 - 在小程序中展示的活动名称">小程序展示名称</th>
+                  <th data-prd-comment="PRD: 表格列 - 活动的创建时间">创建时间</th>
+                  <th data-prd-comment="PRD: 表格列 - 操作按钮组">操作</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><input type="checkbox" data-prd-comment="PRD: 表格 - 选择框，用于选择单个活动" /></td>
+                  <td data-prd-comment="PRD: 表格列 - 活动的名称">首单活动3m</td>
+                  <td data-prd-comment="PRD: 表格列 - 活动的类型">根据新会员首单奖励</td>
+                  <td data-prd-comment="PRD: 表格列 - 时间口径">下单时间</td>
+                  <td data-prd-comment="PRD: 表格列 - 活动的时间范围">2026-03-04 15:14:44 → 2026-05-31 15:41...</td>
+                  <td data-prd-comment="PRD: 表格列 - 大于等于此金额的订单才会发放佣金">¥99</td>
+                  <td data-prd-comment="PRD: 表格列 - 首单奖励的佣金金额">¥1.58</td>
+                  <td data-prd-comment="PRD: 表格列 - 在小程序中展示的活动名称">首单奖励活动</td>
+                  <td data-prd-comment="PRD: 表格列 - 活动的创建时间">2026-03-04 15:41:45</td>
+                  <td>
+                    <a href="#" style="color:#1890ff;margin-right:8px" onclick="showPage('edit')" data-prd-comment="PRD: 操作 - 编辑活动，点击后跳转到编辑首单活动页面">编辑</a>
+                    <a href="#" style="color:#1890ff;margin-right:8px" onclick="confirmTerminateRule()" data-prd-comment="PRD: 操作 - 终止佣金规则，点击后需要二次确认弹窗">终止佣金规则</a>
+                    <a href="#" style="color:#1890ff;margin-right:8px" onclick="showRuleDescription()" data-prd-comment="PRD: 操作 - 规则说明，点击后查看活动的规则说明">规则说明</a>
+                    <a href="#" style="color:#1890ff" onclick="exportConfig()" data-prd-comment="PRD: 操作 - 配置导出，点击后导出活动的配置信息">配置导出</a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            
+            <div style="margin-top:12px;display:flex;justify-content:center;align-items:center;font-size:12px">
+              <span style="margin-right:16px">共 1 条</span>
+              <button class="btn" disabled>&lt;</button>
+              <button class="btn btn-primary">1</button>
+              <button class="btn" disabled>&gt;</button>
+            </div>
+            
+            <div class="footer">Copyright©万家科技有限公司</div>
+          </div>
+        </div>
+        
+        <div id="page-create" class="page">
+          <div class="card">
+            <div style="margin-bottom:24px">
+              <button class="btn btn-text" onclick="showPage('list')" data-prd-comment="PRD: 操作 - 点击返回上一页按钮，放弃当前操作，返回活动列表页面">← 返回上一页</button>
+            </div>
+            
+            <div id="create-step-1" class="step active">
+              <h3 class="step-title">活动信息</h3>
+              
+              <div class="form-row">
+                <div class="form-col">
+                  <label class="form-label">活动名称</label>
+                  <input type="text" class="form-input" placeholder="请输入活动名称" data-prd-comment="PRD: 表单字段 - 活动的名称，字符串" />
+                </div>
+                <div class="form-col">
+                  <label class="form-label">活动类型</label>
+                  <select class="form-input" data-prd-comment="PRD: 表单字段 - 活动的类型，枚举值：新会员首单奖励、新分销员奖励">
+                    <option value="">请选择活动类型</option>
+                    <option value="newMember">根据新会员首单奖励</option>
+                    <option value="newDistributor">根据新分销员首单奖励</option>
+                  </select>
+                </div>
+              </div>
+              
+              <div class="form-item">
+                <label class="form-label">时间口径</label>
+                <div>
+                  <input type="radio" name="timeType" value="orderTime" checked data-prd-comment="PRD: 表单字段 - 时间口径选项：下单时间" /> 下单时间
+                  <input type="radio" name="timeType" value="registerTime" style="margin-left:16px" data-prd-comment="PRD: 表单字段 - 时间口径选项：注册时间" /> 注册时间
+                </div>
+              </div>
+              
+              <div class="form-row">
+                <div class="form-col">
+                  <label class="form-label">活动时间</label>
+                  <input type="date" class="form-input" data-prd-comment="PRD: 表单字段 - 活动的时间范围" />
+                </div>
+                <div class="form-col">
+                  <label class="form-label">注册时间范围</label>
+                  <input type="date" class="form-input" data-prd-comment="PRD: 表单字段 - 新用户注册时间范围" />
+                </div>
+              </div>
+              
+              <div class="form-row">
+                <div class="form-col">
+                  <label class="form-label">有效订单金额</label>
+                  <input type="number" class="form-input" placeholder="请输入有效订单金额" data-prd-comment="PRD: 表单字段 - 大于等于此金额的订单才会发放佣金，数字，单位：元" />
+                </div>
+                <div class="form-col">
+                  <label class="form-label">奖励佣金</label>
+                  <input type="number" class="form-input" placeholder="请输入奖励佣金" data-prd-comment="PRD: 表单字段 - 首单奖励的佣金金额，数字，单位：元" />
+                </div>
+              </div>
+              
+              <div class="form-item">
+                <label class="form-label">小程序展示名称</label>
+                <input type="text" class="form-input" placeholder="请输入小程序展示名称" data-prd-comment="PRD: 表单字段 - 在小程序中展示的活动名称，字符串" />
+              </div>
+              
+              <div class="form-item">
+                <label class="form-label">活动封面图</label>
+                <div style="width:120px;height:120px;border:1px dashed #d9d9d9;border-radius:4px;display:flex;align-items:center;justify-content:center;cursor:pointer" data-prd-comment="PRD: 表单字段 - 活动封面图，推荐尺寸：702*320">
+                  <div style="text-align:center">
+                    <div style="font-size:24px;color:#999">+</div>
+                    <div style="margin-top:8px;font-size:12px;color:#999">上传</div>
+                  </div>
+                </div>
+                <div style="margin-top:8px;font-size:12px;color:#999">推荐尺寸：702*320</div>
+              </div>
+              
+              <div style="margin-top:24px;text-align:center">
+                <button class="btn btn-primary" onclick="showCreateStep(2)" data-prd-comment="PRD: 操作 - 点击下一步按钮，进入奖励规则配置页面">下一步</button>
+              </div>
+            </div>
+            
+            <div id="create-step-2" class="step">
+              <h3 class="step-title">奖励规则</h3>
+              
+              <div class="form-item">
+                <label class="form-label">玩法选择</label>
+                <select class="form-input" data-prd-comment="PRD: 表单字段 - 新会员首单奖励的玩法类型，枚举值：首单阶梯奖励、激励复购、新顾客邀请排位赛">
+                  <option value="">请选择玩法</option>
+                  <option value="ladder">首单阶梯奖励</option>
+                  <option value="repurchase">激励复购</option>
+                  <option value="ranking">新顾客邀请排位赛</option>
+                </select>
+              </div>
+              
+              <h4 style="margin-bottom:12px;font-size:13px;font-weight:bold">首单阶梯奖励规则</h4>
+              
+              <div class="rule-item">
+                <input type="number" class="rule-input" placeholder="最小单数" value="1" data-prd-comment="PRD: 表单字段 - 首单阶梯奖励规则：最小单数" />
+                <span style="margin-right:8px">-</span>
+                <input type="number" class="rule-input" placeholder="最大单数" value="3" data-prd-comment="PRD: 表单字段 - 首单阶梯奖励规则：最大单数" />
+                <span style="margin-right:8px">单</span>
+                <span style="margin-right:8px">奖励</span>
+                <input type="number" class="rule-input" placeholder="奖励金额" value="1" data-prd-comment="PRD: 表单字段 - 首单阶梯奖励规则：奖励金额" />
+                <span style="margin-right:8px">元/单</span>
+                <button class="btn btn-text" style="color:#ff4d4f" onclick="removeRule(this)" data-prd-comment="PRD: 操作 - 删除首单阶梯奖励规则">删除</button>
+              </div>
+              
+              <div class="rule-item">
+                <input type="number" class="rule-input" placeholder="最小单数" value="4" data-prd-comment="PRD: 表单字段 - 首单阶梯奖励规则：最小单数" />
+                <span style="margin-right:8px">-</span>
+                <input type="number" class="rule-input" placeholder="最大单数" value="10" data-prd-comment="PRD: 表单字段 - 首单阶梯奖励规则：最大单数" />
+                <span style="margin-right:8px">单</span>
+                <span style="margin-right:8px">奖励</span>
+                <input type="number" class="rule-input" placeholder="奖励金额" value="2" data-prd-comment="PRD: 表单字段 - 首单阶梯奖励规则：奖励金额" />
+                <span style="margin-right:8px">元/单</span>
+                <button class="btn btn-text" style="color:#ff4d4f" onclick="removeRule(this)" data-prd-comment="PRD: 操作 - 删除首单阶梯奖励规则">删除</button>
+              </div>
+              
+              <div class="rule-item">
+                <input type="number" class="rule-input" placeholder="最小单数" value="11" data-prd-comment="PRD: 表单字段 - 首单阶梯奖励规则：最小单数" />
+                <span style="margin-right:8px">-</span>
+                <input type="number" class="rule-input" placeholder="最大单数" value="" data-prd-comment="PRD: 表单字段 - 首单阶梯奖励规则：最大单数" />
+                <span style="margin-right:8px">单</span>
+                <span style="margin-right:8px">奖励</span>
+                <input type="number" class="rule-input" placeholder="奖励金额" value="3" data-prd-comment="PRD: 表单字段 - 首单阶梯奖励规则：奖励金额" />
+                <span style="margin-right:8px">元/单</span>
+                <button class="btn btn-text" style="color:#ff4d4f" onclick="removeRule(this)" data-prd-comment="PRD: 操作 - 删除首单阶梯奖励规则">删除</button>
+              </div>
+              
+              <div style="margin-top:8px">
+                <button class="rule-btn" onclick="addRule()" data-prd-comment="PRD: 操作 - 添加首单阶梯奖励规则">+ 添加阶梯规则</button>
+              </div>
+              
+              <div style="margin-top:24px;text-align:center">
+                <button class="btn" onclick="showCreateStep(1)" data-prd-comment="PRD: 操作 - 点击上一步按钮，返回活动信息页面">上一步</button>
+                <button class="btn btn-primary" onclick="submitActivity()" data-prd-comment="PRD: 操作 - 点击提交按钮，保存活动信息，返回活动列表页面">提交</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div id="page-edit" class="page">
+          <div class="card">
+            <div style="margin-bottom:24px">
+              <button class="btn btn-text" onclick="showPage('list')" data-prd-comment="PRD: 操作 - 点击返回上一页按钮，放弃当前操作，返回活动列表页面">← 返回上一页</button>
+            </div>
+            
+            <div id="edit-step-1" class="step active">
+              <h3 class="step-title">活动信息</h3>
+              
+              <div class="form-row">
+                <div class="form-col">
+                  <label class="form-label">活动ID</label>
+                  <input type="text" class="form-input" value="601" disabled data-prd-comment="PRD: 表单字段 - 活动ID，只读" />
+                </div>
+                <div class="form-col">
+                  <label class="form-label">活动名称</label>
+                  <input type="text" class="form-input" value="首单活动3m" data-prd-comment="PRD: 表单字段 - 活动的名称，字符串" />
+                </div>
+              </div>
+              
+              <div class="form-row">
+                <div class="form-col">
+                  <label class="form-label">活动类型</label>
+                  <select class="form-input" data-prd-comment="PRD: 表单字段 - 活动的类型，枚举值：新会员首单奖励、新分销员奖励">
+                    <option value="newMember" selected>根据新会员首单奖励</option>
+                    <option value="newDistributor">根据新分销员首单奖励</option>
+                  </select>
+                </div>
+                <div class="form-col">
+                  <label class="form-label">时间口径</label>
+                  <select class="form-input" data-prd-comment="PRD: 表单字段 - 时间口径，选项：下单时间、注册时间">
+                    <option value="orderTime" selected>下单时间</option>
+                    <option value="registerTime">注册时间</option>
+                  </select>
+                </div>
+              </div>
+              
+              <div class="form-row">
+                <div class="form-col">
+                  <label class="form-label">活动时间</label>
+                  <input type="date" class="form-input" value="2026-03-04" data-prd-comment="PRD: 表单字段 - 活动的时间范围" />
+                </div>
+                <div class="form-col">
+                  <label class="form-label">注册时间范围</label>
+                  <input type="date" class="form-input" value="2026-03-01" data-prd-comment="PRD: 表单字段 - 新用户注册时间范围" />
+                </div>
+              </div>
+              
+              <div class="form-row">
+                <div class="form-col">
+                  <label class="form-label">有效订单金额</label>
+                  <input type="number" class="form-input" value="99" data-prd-comment="PRD: 表单字段 - 大于等于此金额的订单才会发放佣金，数字，单位：元" />
+                </div>
+                <div class="form-col">
+                  <label class="form-label">奖励佣金</label>
+                  <input type="number" class="form-input" value="1.58" data-prd-comment="PRD: 表单字段 - 首单奖励的佣金金额，数字，单位：元" />
+                </div>
+              </div>
+              
+              <div class="form-item">
+                <label class="form-label">小程序展示名称</label>
+                <input type="text" class="form-input" value="首单奖励活动" data-prd-comment="PRD: 表单字段 - 在小程序中展示的活动名称，字符串" />
+              </div>
+              
+              <div class="form-item">
+                <label class="form-label">活动封面图</label>
+                <div style="width:120px;height:120px;border:1px dashed #d9d9d9;border-radius:4px;display:flex;align-items:center;justify-content:center;cursor:pointer" data-prd-comment="PRD: 表单字段 - 活动封面图，推荐尺寸：702*320">
+                  <div style="text-align:center">
+                    <div style="font-size:24px;color:#999">📷</div>
+                    <div style="margin-top:8px;font-size:12px;color:#999">已上传</div>
+                  </div>
+                </div>
+                <div style="margin-top:8px;font-size:12px;color:#999">推荐尺寸：702*320</div>
+              </div>
+              
+              <div style="margin-top:24px;text-align:center">
+                <button class="btn btn-primary" onclick="showEditStep(2)" data-prd-comment="PRD: 操作 - 点击下一步按钮，进入奖励规则配置页面">下一步</button>
+              </div>
+            </div>
+            
+            <div id="edit-step-2" class="step">
+              <h3 class="step-title">奖励规则</h3>
+              
+              <div class="form-item">
+                <label class="form-label">玩法选择</label>
+                <select class="form-input" data-prd-comment="PRD: 表单字段 - 新会员首单奖励的玩法类型，枚举值：首单阶梯奖励、激励复购、新顾客邀请排位赛">
+                  <option value="">请选择玩法</option>
+                  <option value="ladder" selected>首单阶梯奖励</option>
+                  <option value="repurchase">激励复购</option>
+                  <option value="ranking">新顾客邀请排位赛</option>
+                </select>
+              </div>
+              
+              <h4 style="margin-bottom:12px;font-size:13px;font-weight:bold">首单阶梯奖励规则</h4>
+              
+              <div class="rule-item">
+                <input type="number" class="rule-input" placeholder="最小单数" value="1" data-prd-comment="PRD: 表单字段 - 首单阶梯奖励规则：最小单数" />
+                <span style="margin-right:8px">-</span>
+                <input type="number" class="rule-input" placeholder="最大单数" value="3" data-prd-comment="PRD: 表单字段 - 首单阶梯奖励规则：最大单数" />
+                <span style="margin-right:8px">单</span>
+                <span style="margin-right:8px">奖励</span>
+                <input type="number" class="rule-input" placeholder="奖励金额" value="1" data-prd-comment="PRD: 表单字段 - 首单阶梯奖励规则：奖励金额" />
+                <span style="margin-right:8px">元/单</span>
+                <button class="btn btn-text" style="color:#ff4d4f" onclick="removeRule(this)" data-prd-comment="PRD: 操作 - 删除首单阶梯奖励规则">删除</button>
+              </div>
+              
+              <div class="rule-item">
+                <input type="number" class="rule-input" placeholder="最小单数" value="4" data-prd-comment="PRD: 表单字段 - 首单阶梯奖励规则：最小单数" />
+                <span style="margin-right:8px">-</span>
+                <input type="number" class="rule-input" placeholder="最大单数" value="10" data-prd-comment="PRD: 表单字段 - 首单阶梯奖励规则：最大单数" />
+                <span style="margin-right:8px">单</span>
+                <span style="margin-right:8px">奖励</span>
+                <input type="number" class="rule-input" placeholder="奖励金额" value="2" data-prd-comment="PRD: 表单字段 - 首单阶梯奖励规则：奖励金额" />
+                <span style="margin-right:8px">元/单</span>
+                <button class="btn btn-text" style="color:#ff4d4f" onclick="removeRule(this)" data-prd-comment="PRD: 操作 - 删除首单阶梯奖励规则">删除</button>
+              </div>
+              
+              <div class="rule-item">
+                <input type="number" class="rule-input" placeholder="最小单数" value="11" data-prd-comment="PRD: 表单字段 - 首单阶梯奖励规则：最小单数" />
+                <span style="margin-right:8px">-</span>
+                <input type="number" class="rule-input" placeholder="最大单数" value="" data-prd-comment="PRD: 表单字段 - 首单阶梯奖励规则：最大单数" />
+                <span style="margin-right:8px">单</span>
+                <span style="margin-right:8px">奖励</span>
+                <input type="number" class="rule-input" placeholder="奖励金额" value="3" data-prd-comment="PRD: 表单字段 - 首单阶梯奖励规则：奖励金额" />
+                <span style="margin-right:8px">元/单</span>
+                <button class="btn btn-text" style="color:#ff4d4f" onclick="removeRule(this)" data-prd-comment="PRD: 操作 - 删除首单阶梯奖励规则">删除</button>
+              </div>
+              
+              <div style="margin-top:8px">
+                <button class="rule-btn" onclick="addEditRule()" data-prd-comment="PRD: 操作 - 添加首单阶梯奖励规则">+ 添加阶梯规则</button>
+              </div>
+              
+              <div style="margin-top:24px;text-align:center">
+                <button class="btn" onclick="showEditStep(1)" data-prd-comment="PRD: 操作 - 点击上一步按钮，返回活动信息页面">上一步</button>
+                <button class="btn btn-primary" onclick="saveActivity()" data-prd-comment="PRD: 操作 - 点击保存按钮，保存活动信息，返回活动列表页面">保存</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div id="confirm-modal" class="modal-overlay">
+      <div class="modal">
+        <div class="modal-title" id="modal-title">确认操作</div>
+        <div id="modal-content">确定要执行此操作吗？</div>
+        <div class="modal-actions">
+          <button class="btn" onclick="closeModal()">取消</button>
+          <button class="btn btn-primary" id="modal-confirm-btn">确定</button>
+        </div>
+      </div>
+    </div>
+    
+    <script>
+      let currentAction = null;
+      
+      function showPage(pageName) {
+        document.querySelectorAll('.page').forEach(page => {
+          page.classList.remove('active');
+        });
+        
+        const targetPage = document.getElementById('page-' + pageName);
+        if (targetPage) {
+          targetPage.classList.add('active');
+        }
+        
+        const breadcrumb = document.getElementById('breadcrumb');
+        if (breadcrumb) {
+          if (pageName === 'list') {
+            breadcrumb.textContent = '活动 / 首单活动';
+          } else if (pageName === 'create') {
+            breadcrumb.textContent = '活动 / 新增首单活动';
+            showCreateStep(1);
+          } else if (pageName === 'edit') {
+            breadcrumb.textContent = '活动 / 编辑首单活动';
+            showEditStep(1);
+          }
+        }
+      }
+      
+      function showCreateStep(stepNumber) {
+        document.querySelectorAll('.step').forEach(step => {
+          step.classList.remove('active');
+        });
+        
+        const targetStep = document.getElementById('create-step-' + stepNumber);
+        if (targetStep) {
+          targetStep.classList.add('active');
+        }
+      }
+      
+      function showEditStep(stepNumber) {
+        document.querySelectorAll('#page-edit .step').forEach(step => {
+          step.classList.remove('active');
+        });
+        
+        const targetStep = document.getElementById('edit-step-' + stepNumber);
+        if (targetStep) {
+          targetStep.classList.add('active');
+        }
+      }
+      
+      function filterByStatus(status) {
+        console.log('筛选状态:', status);
+        alert('已筛选：' + status);
+      }
+      
+      function queryActivities() {
+        console.log('查询活动');
+        alert('查询成功');
+      }
+      
+      function resetFilters() {
+        document.getElementById('filter-activity-id').value = '';
+        document.getElementById('filter-activity-name').value = '';
+        document.getElementById('filter-create-time').value = '';
+        document.getElementById('filter-activity-time').value = '';
+        console.log('重置筛选条件');
+        alert('筛选条件已重置');
+      }
+      
+      function confirmTerminate() {
+        showModal('确认终止', '确定要终止选中的活动吗？', () => {
+          console.log('终止活动');
+          alert('活动已终止');
+          closeModal();
+        });
+      }
+      
+      function confirmTerminateRule() {
+        showModal('确认终止佣金规则', '确定要终止佣金规则吗？', () => {
+          console.log('终止佣金规则');
+          alert('佣金规则已终止');
+          closeModal();
+        });
+      }
+      
+      function showRuleDescription() {
+        console.log('显示规则说明');
+        alert('规则说明：若万家超市下单用户为新用户，则给与对应引导新用户下单的促销员首单奖励');
+      }
+      
+      function exportConfig() {
+        console.log('导出配置');
+        alert('配置导出成功');
+      }
+      
+      function submitActivity() {
+        console.log('提交活动');
+        alert('活动创建成功');
+        showPage('list');
+      }
+      
+      function saveActivity() {
+        console.log('保存活动');
+        alert('活动保存成功');
+        showPage('list');
+      }
+      
+      function addRule() {
+        const rulesContainer = document.querySelector('#create-step-2');
+        const addButton = document.querySelector('#create-step-2 .rule-btn');
+        const newRule = document.createElement('div');
+        newRule.className = 'rule-item';
+        newRule.innerHTML = `
+          <input type="number" class="rule-input" placeholder="最小单数" value="" data-prd-comment="PRD: 表单字段 - 首单阶梯奖励规则：最小单数" />
+          <span style="margin-right:8px">-</span>
+          <input type="number" class="rule-input" placeholder="最大单数" value="" data-prd-comment="PRD: 表单字段 - 首单阶梯奖励规则：最大单数" />
+          <span style="margin-right:8px">单</span>
+          <span style="margin-right:8px">奖励</span>
+          <input type="number" class="rule-input" placeholder="奖励金额" value="" data-prd-comment="PRD: 表单字段 - 首单阶梯奖励规则：奖励金额" />
+          <span style="margin-right:8px">元/单</span>
+          <button class="btn btn-text" style="color:#ff4d4f" onclick="removeRule(this)" data-prd-comment="PRD: 操作 - 删除首单阶梯奖励规则">删除</button>
+        `;
+        rulesContainer.insertBefore(newRule, addButton.parentNode);
+        console.log('添加规则');
+      }
+      
+      function addEditRule() {
+        const rulesContainer = document.querySelector('#edit-step-2');
+        const addButton = document.querySelector('#edit-step-2 .rule-btn');
+        const newRule = document.createElement('div');
+        newRule.className = 'rule-item';
+        newRule.innerHTML = `
+          <input type="number" class="rule-input" placeholder="最小单数" value="" data-prd-comment="PRD: 表单字段 - 首单阶梯奖励规则：最小单数" />
+          <span style="margin-right:8px">-</span>
+          <input type="number" class="rule-input" placeholder="最大单数" value="" data-prd-comment="PRD: 表单字段 - 首单阶梯奖励规则：最大单数" />
+          <span style="margin-right:8px">单</span>
+          <span style="margin-right:8px">奖励</span>
+          <input type="number" class="rule-input" placeholder="奖励金额" value="" data-prd-comment="PRD: 表单字段 - 首单阶梯奖励规则：奖励金额" />
+          <span style="margin-right:8px">元/单</span>
+          <button class="btn btn-text" style="color:#ff4d4f" onclick="removeRule(this)" data-prd-comment="PRD: 操作 - 删除首单阶梯奖励规则">删除</button>
+        `;
+        rulesContainer.insertBefore(newRule, addButton.parentNode);
+        console.log('添加规则');
+      }
+      
+      function removeRule(button) {
+        const ruleItem = button.closest('.rule-item');
+        ruleItem.remove();
+        console.log('删除规则');
+      }
+      
+      function showModal(title, content, onConfirm) {
+        document.getElementById('modal-title').textContent = title;
+        document.getElementById('modal-content').textContent = content;
+        document.getElementById('confirm-modal').classList.add('active');
+        
+        const confirmBtn = document.getElementById('modal-confirm-btn');
+        confirmBtn.onclick = () => {
+          if (onConfirm) {
+            onConfirm();
+          }
+        };
+      }
+      
+      function closeModal() {
+        document.getElementById('confirm-modal').classList.remove('active');
+      }
+    </script>
+  </body>
+</html>
